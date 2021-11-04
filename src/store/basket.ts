@@ -1,14 +1,24 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 export type BasketItem = {
   id: string;
   name: string;
 }
-export const basketState = atom<BasketItem[]>({
+
+export const basketState = atom<BasketItem[]>({ 
   key: "basketState",
   default: [],
 });
 
+/* 이건 redux에서 useSelector로 호출할때처럼 여기 값을 useRecoilValue(selector명)으로 호출가능(갱신은 불가) 
+export const basketLengthState = selector<number>({ 
+  key: "basketLengthState",
+  get: ({ get }) => {
+    const basket = get(basketState);
+    return basket.length;
+  },
+});
+*/
 // Usage
 
 /*
