@@ -9,7 +9,7 @@
   `yarn dev`
 
 - production build
-  `yarn export`
+  `yarn build`
 
 - lint
   `yarn lint`
