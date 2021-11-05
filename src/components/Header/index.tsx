@@ -32,7 +32,7 @@ const Header: VFC = () => {
         <div className="h-10 flex-grow rounded-md flex px-2 md:px-0">
           <input
             type="text"
-            className=" bg-white p-2 h-full w-6 flex-grow rounded-l-md"
+            className=" bg-white p-2 h-full w-6 flex-grow rounded-l-md focus:outline-none"
           />
           <button
             type="button"

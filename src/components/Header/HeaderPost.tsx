@@ -6,7 +6,7 @@ type Props = {
 };
 const HeaderPost: VFC<Props> = ({ isMobileView }) => {
   return isMobileView ? (
-    <div className="flex md:hidden link p-1 text-white items-center mr-3">
+    <div className="flex md:hidden p-1 text-white items-center mr-3">
       <LocationMarkerIcon className="h-5" />
       <div className="flex h-full ml-1 pr-3">
         <p className="text-amazon_gray text-xs">hogeさん - 567-0815 にお届け</p>
