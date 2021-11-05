@@ -12,13 +12,14 @@ const Banner: VFC = () => {
         showStatus={false}
         showIndicators={false}
         showThumbs={false}
-        interval={8000}
+        interval={5000}
       >
         <div>
           <img
             loading="lazy"
             src="https://m.media-amazon.com/images/I/61AeQ3LMBXL._SX3000_.jpg"
             alt=""
+            className="h-60 md:h-auto object-cover"
           />
         </div>
         <div>
@@ -26,6 +27,7 @@ const Banner: VFC = () => {
             loading="lazy"
             src="https://m.media-amazon.com/images/I/71-Ff37VpEL._SX3000_.jpg"
             alt=""
+            className="h-60 md:h-auto object-cover"
           />
         </div>
         <div>
@@ -33,6 +35,7 @@ const Banner: VFC = () => {
             loading="lazy"
             src="https://m.media-amazon.com/images/I/71mVnO2v1HL._SX3000_.jpg"
             alt=""
+            className="h-60 md:h-auto object-cover"
           />
         </div>
         <div>
@@ -40,6 +43,7 @@ const Banner: VFC = () => {
             loading="lazy"
             src="https://m.media-amazon.com/images/I/61Pe1Nml6aL._SX3000_.jpg"
             alt=""
+            className="h-60 md:h-auto object-cover"
           />
         </div>
       </Carousel>
