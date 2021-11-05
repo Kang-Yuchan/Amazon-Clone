@@ -16,22 +16,6 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
-    'jsx-a11y/label-has-associated-control': [
-      'error',
-      {
-        required: {
-          some: ['nesting', 'id'],
-        },
-      },
-    ],
-    'jsx-a11y/label-has-for': [
-      'error',
-      {
-        required: {
-          some: ['nesting', 'id'],
-        },
-      },
-    ],
     'react/prop-types': 0,
     'react/jsx-filename-extension': [
       2,

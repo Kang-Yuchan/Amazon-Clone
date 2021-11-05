@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .link {
+    @apply hover:ring-1 hover:ring-white cursor-pointer;
+  }
+  .header_bold {
+    @apply text-sm font-bold leading-4;
+  }
+}
