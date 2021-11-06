@@ -1,10 +1,12 @@
-import { useState, VFC } from 'react';
+import { useCallback, useState, VFC } from 'react';
 import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { Product, RealTimeMoneyOrder } from '../../types';
 import { StarIcon } from '@heroicons/react/solid';
 import { StarIcon as StarOutlineIcon } from '@heroicons/react/outline';
 import Currency from 'react-currency-formatter';
+import { useRecoilState } from 'recoil';
+import { cartState } from '../../store/cart';
 
 const MAX_RATING = 5;
 const YEN_PER_DOLLAR_CURRRENT = 113;
@@ -18,6 +20,17 @@ const Product: VFC<Props> = ({ product, realTimeMoneyOrder }) => {
     ? Math.ceil(product.price * parseInt(realTimeMoneyOrder.JPY, 10))
     : Math.ceil(product.price * YEN_PER_DOLLAR_CURRRENT);
   const [hasPrime] = useState(Math.random() < 0.5);
+  const [cart, setCart] = useRecoilState(cartState);
+  const isIncludeInCart = !!cart.find((item) => item.id === product.id);
+
+  const addItemToCart = useCallback(
+    (product: Product) => {
+      if (!isIncludeInCart) {
+        setCart((state) => [...state, { ...product, itemCount: 0 }]);
+      }
+    },
+    [setCart],
+  );
 
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10">
@@ -58,8 +71,13 @@ const Product: VFC<Props> = ({ product, realTimeMoneyOrder }) => {
           <p className="text-xs text-gray-500">無料翌日配達</p>
         </div>
       )}
-      <button type="button" className="mt-auto button">
-        カートに入れる
+      <button
+        type="button"
+        className="mt-auto button"
+        disabled={isIncludeInCart}
+        onClick={() => addItemToCart(product)}
+      >
+        {isIncludeInCart ? 'すでにカートに入ってます' : 'カートに入れる'}
       </button>
     </div>
   );

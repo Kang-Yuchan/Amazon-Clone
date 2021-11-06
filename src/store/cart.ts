@@ -1,8 +1,8 @@
 import { atom, selector } from 'recoil';
+import { Product } from '../types';
 
-export type CartItem = {
-  id: string;
-  name: string;
+export type CartItem = Product & {
+  itemCount: number;
 };
 
 export const cartState = atom<CartItem[]>({
