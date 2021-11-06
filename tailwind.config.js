@@ -4,6 +4,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      height: {
+        startSolidIcon: '21px',
+      },
       colors: {
         amazon_blue: {
           moreLight: '#37475a',
