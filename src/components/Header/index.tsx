@@ -1,16 +1,15 @@
 import { VFC } from 'react';
 import Image from 'next/image';
-import {
-  SearchIcon,
-  MenuIcon,
-  ShoppingCartIcon,
-} from '@heroicons/react/outline';
+import { SearchIcon, ShoppingCartIcon } from '@heroicons/react/outline';
 import HeaderPost from './HeaderPost';
 import HeaderUser from './HeaderUser';
 import HeaderMenu from './HeaderMenu';
 import HeaderNavMenus from './HeaderNavMenus';
+import { useRecoilValue } from 'recoil';
+import { cartState } from '../../store/cart';
 
 const Header: VFC = () => {
+  const cart = useRecoilValue(cartState);
   return (
     <header className="relative">
       {/* Top Nav */}
@@ -51,7 +50,9 @@ const Header: VFC = () => {
           <div className="md:link md:p-2 flex items-end">
             <ShoppingCartIcon className="h-9" />
             <div className="text-center">
-              <span className="text-yellow-500 text-base font-bold">0</span>
+              <span className="text-yellow-500 text-base font-bold">
+                {cart.length}
+              </span>
               <p className="hidden md:block header_bold">カート</p>
             </div>
           </div>

@@ -21,7 +21,12 @@ const ProductFeed: VFC<Props> = ({ products }) => {
         <p className="text-lg md:text-base">おすすめはこちら</p>
         <div className="flex overflow-x-scroll space-x-10 w-full h-72 py-5">
           {recommendProducts.map((product) => (
-            <img src={product.image} className="w-48 object-contain" alt="" />
+            <img
+              key={product.image}
+              src={product.image}
+              className="w-48 object-contain"
+              alt=""
+            />
           ))}
         </div>
       </div>
@@ -37,7 +42,12 @@ const ProductFeed: VFC<Props> = ({ products }) => {
         <p className="text-lg md:text-base">こちらもおすすめ</p>
         <div className="flex overflow-x-scroll space-x-10 w-full h-72 py-5">
           {secondRecommendProducts.map((product) => (
-            <img src={product.image} className="w-48 object-contain" alt="" />
+            <img
+              key={product.image}
+              src={product.image}
+              className="w-48 object-contain"
+              alt=""
+            />
           ))}
         </div>
       </div>
