@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { session } from 'next-auth/client';
 import Stripe from 'stripe';
 import { CartItem } from '../../../store/cart';
 

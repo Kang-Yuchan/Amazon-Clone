@@ -1,7 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '../../components/Header';
-import { signIn, useSession } from 'next-auth/client';
 import Image from 'next/image';
 import { useRouter } from 'next/dist/client/router';
 import { useRecoilState } from 'recoil';
@@ -9,8 +8,10 @@ import { CartItem, cartState } from '../../store/cart';
 import CheckoutProduct from '../../components/CheckoutProduct';
 import Currency from 'react-currency-formatter';
 import { loadStripe } from '@stripe/stripe-js';
+import firebase from '../../../firebase/firebaseClient';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import axios from 'axios';
-import { Stripe } from 'stripe';
+import { signInWithGoogle } from '../../utils/signInFunc';
 const stripePromise = loadStripe(process.env.stripe_public_key!);
 
 const getAllItemCount = (cart: CartItem[]): number =>
@@ -27,7 +28,7 @@ const getAllItemPrice = (cart: CartItem[]): number =>
   );
 
 const Checkout: NextPage = () => {
-  const [session] = useSession();
+  const [user, userLoading] = useAuthState(firebase.auth());
   const router = useRouter();
   const [cart] = useRecoilState(cartState);
 
@@ -36,8 +37,8 @@ const Checkout: NextPage = () => {
 
     const checkoutSession = await axios.post('/api/checkout_session', {
       cart,
-      email: session?.user?.email,
-      name: session?.user?.name,
+      email: user?.email,
+      name: user?.displayName,
     });
 
     const result = await stripe?.redirectToCheckout({
@@ -65,7 +66,7 @@ const Checkout: NextPage = () => {
               quality={100}
             />
             <div className="md:bg-white md:p-5 space-y-10 w-full mt-5">
-              {session ? (
+              {user ? (
                 <div>
                   {cart.length > 0 ? (
                     <>
@@ -107,7 +108,7 @@ const Checkout: NextPage = () => {
                           Amazonカートは空です
                         </h2>
                         <button
-                          onClick={() => signIn()}
+                          onClick={() => signInWithGoogle()}
                           className="w-full block text-center px-4 py-3  md:w-auto text-base bg-yellow-300 rounded-lg hover:bg-yellow-400 md:px-4 md:py-1 shadow-sm mt-4"
                         >
                           ご自身のアカウントにサインイン
@@ -151,16 +152,14 @@ const Checkout: NextPage = () => {
                 </div>
                 <button
                   role="link"
-                  disabled={!session}
+                  disabled={!user}
                   type="button"
                   onClick={createCheckoutSession}
                   className={`w-full block text-center px-4 py-3 text-base rounded-lg ${
-                    session
-                      ? 'bg-yellow-300 hover:bg-yellow-400'
-                      : 'bg-gray-300'
+                    user ? 'bg-yellow-300 hover:bg-yellow-400' : 'bg-gray-300'
                   } md:px-4 md:py-1 shadow-sm mt-4`}
                 >
-                  {session ? (
+                  {user ? (
                     <>
                       <span>レジに進む</span>
                       <span className="md:hidden">

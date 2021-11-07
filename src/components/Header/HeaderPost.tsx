@@ -1,19 +1,20 @@
 import { VFC } from 'react';
 import { LocationMarkerIcon } from '@heroicons/react/outline';
-import { useSession } from 'next-auth/client';
+import firebase from '../../../firebase/firebaseClient';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 type Props = {
   isMobileView: boolean;
 };
 const HeaderPost: VFC<Props> = ({ isMobileView }) => {
-  const [session] = useSession();
+  const [user, userLoading] = useAuthState(firebase.auth());
   return isMobileView ? (
     <div className="flex md:hidden p-1 text-white items-center mr-3">
       <LocationMarkerIcon className="h-5" />
       <div className="flex h-full ml-1 pr-3">
         <p className="text-amazon_gray text-xs">
-          {session
-            ? `${session.user?.name}さん - 567-0815 にお届け`
+          {user
+            ? `${user.displayName}さん - 567-0815 にお届け`
             : 'お届け先の住所を選択'}
         </p>
       </div>
@@ -23,9 +24,9 @@ const HeaderPost: VFC<Props> = ({ isMobileView }) => {
       <LocationMarkerIcon className="h-6" />
       <div className="h-full ml-1 pr-3">
         <p className="text-amazon_gray text-xs">
-          {session ? `お届け先 ${session.user?.name}さん` : 'こんにちは'}
+          {user ? `お届け先 ${user?.displayName}さん` : 'こんにちは'}
         </p>
-        <p className="header_bold">{session ? '567-0815' : 'お届け先を選択'}</p>
+        <p className="header_bold">{user ? '567-0815' : 'お届け先を選択'}</p>
       </div>
     </div>
   );

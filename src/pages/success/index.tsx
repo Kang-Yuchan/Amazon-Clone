@@ -1,16 +1,19 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '../../components/Header';
-import { useSession } from 'next-auth/client';
 import Image from 'next/image';
+import firebase from '../../../firebase/firebaseClient';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Index: NextPage = () => {
-  const [session] = useSession();
-
+  const [user, userLoading] = useAuthState(firebase.auth());
+  if (userLoading) {
+    return <h1>Loading</h1>;
+  }
   return (
     <>
       <Head>
-        <title>{session ? '注文完了' : '該当するユーザーがありません'}</title>
+        <title>{user ? '注文完了' : '該当するユーザーがありません'}</title>
       </Head>
       <div className="bg-gray-100">
         <Header />
@@ -24,9 +27,9 @@ const Index: NextPage = () => {
               quality={100}
             />
             <div className="md:bg-white md:p-5 space-y-10 w-full mt-5">
-              {session ? (
+              {user ? (
                 <h1 className="text-3xl pb-4 border-b-2 border-gray-200 w-full">
-                  注文が完了いたしました！
+                  {user?.displayName}さん、注文が完了いたしました！
                 </h1>
               ) : (
                 <h1 className="text-3xl pb-4 border-b-2 border-gray-200 w-full">
