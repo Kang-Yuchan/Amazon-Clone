@@ -41,9 +41,14 @@ const CheckoutProduct: VFC<Props> = ({ product }) => {
               pattern="##,### "
             />
           </span>
+          {product.hasPrime && (
+            <span className="md:hidden text-xs text-gray-500 font-medium whitespace-pre ml-1">
+              プライム無料配送
+            </span>
+          )}
         </div>
         {product.hasPrime && (
-          <div className="flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-1 mb-1">
             <img
               loading="lazy"
               className="w-12"
