@@ -26,7 +26,7 @@ const Checkout: VFC = () => {
   const [session] = useSession();
   const router = useRouter();
   const [cart] = useRecoilState(cartState);
-  console.log(getAllItemPrice(cart));
+
   return (
     <>
       <Head>
@@ -129,6 +129,8 @@ const Checkout: VFC = () => {
                   </span>
                 </div>
                 <button
+                  role="link"
+                  disabled={!session}
                   type="button"
                   className="w-full block text-center px-4 py-3 text-base bg-yellow-300 rounded-lg hover:bg-yellow-400 md:px-4 md:py-1 shadow-sm mt-4"
                 >

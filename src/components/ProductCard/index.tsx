@@ -1,6 +1,6 @@
 import { useCallback, useState, VFC } from 'react';
 import Image from 'next/image';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { Product, RealTimeMoneyOrder } from '../../types';
 import { StarIcon } from '@heroicons/react/solid';
 import { StarIcon as StarOutlineIcon } from '@heroicons/react/outline';
@@ -90,7 +90,7 @@ const Product: VFC<Props> = ({ product, realTimeMoneyOrder }) => {
 
 export default Product;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const realTimeMoneyOrder = await fetch(
     'http://api.aoikujira.com/kawase/json/usd',
   ).then((res) => res.json());
