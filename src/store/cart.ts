@@ -3,6 +3,7 @@ import { Product } from '../types';
 
 export type CartItem = Product & {
   itemCount: number;
+  hasPrime: boolean;
 };
 
 export const cartState = atom<CartItem[]>({

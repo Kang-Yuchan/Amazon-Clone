@@ -23,14 +23,14 @@ const Product: VFC<Props> = ({ product, realTimeMoneyOrder }) => {
   const [cart, setCart] = useRecoilState(cartState);
   const isIncludeInCart = !!cart.find((item) => item.id === product.id);
 
-  const addItemToCart = useCallback(
-    (product: Product) => {
-      if (!isIncludeInCart) {
-        setCart((state) => [...state, { ...product, itemCount: 0 }]);
-      }
-    },
-    [setCart],
-  );
+  const addItemToCart = (product: Product) => {
+    if (!isIncludeInCart) {
+      setCart((state) => [
+        ...state,
+        { ...product, itemCount: 1, hasPrime, price: priceAsJpy },
+      ]);
+    }
+  };
 
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10">
@@ -67,7 +67,12 @@ const Product: VFC<Props> = ({ product, realTimeMoneyOrder }) => {
       </div>
       {hasPrime && (
         <div className="flex items-center space-x-2 -mt-5">
-          <img className="w-12" src="https://links.papareact.com/fdw" alt="" />
+          <img
+            loading="lazy"
+            className="w-12"
+            src="https://links.papareact.com/fdw"
+            alt=""
+          />
           <p className="text-xs text-gray-500">無料翌日配達</p>
         </div>
       )}

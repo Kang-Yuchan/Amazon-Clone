@@ -7,9 +7,12 @@ import HeaderMenu from './HeaderMenu';
 import HeaderNavMenus from './HeaderNavMenus';
 import { useRecoilValue } from 'recoil';
 import { cartState } from '../../store/cart';
+import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
 
 const Header: VFC = () => {
   const cart = useRecoilValue(cartState);
+  const router = useRouter();
   return (
     <header className="relative">
       {/* Top Nav */}
@@ -23,6 +26,7 @@ const Header: VFC = () => {
             quality={100}
             objectFit="contain"
             className="cursor-pointer"
+            onClick={() => router.push('/')}
           />
         </div>
         <HeaderPost isMobileView={false} />
@@ -47,15 +51,17 @@ const Header: VFC = () => {
             <p>返品もこちら</p>
             <p className="header_bold">注文履歴</p>
           </div>
-          <div className="md:link md:p-2 flex items-end">
-            <ShoppingCartIcon className="h-9" />
-            <div className="text-center">
-              <span className="text-yellow-500 text-base font-bold">
-                {cart.length}
-              </span>
-              <p className="hidden md:block header_bold">カート</p>
+          <Link href="/checkout">
+            <div className="md:link md:p-2 flex items-end">
+              <ShoppingCartIcon className="h-9" />
+              <div className="text-center">
+                <span className="text-yellow-500 text-base font-bold">
+                  {cart.length}
+                </span>
+                <p className="hidden md:block header_bold">カート</p>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
         <HeaderNavMenus isMobileView />
       </div>

@@ -14,6 +14,7 @@ module.exports = {
           DEFAULT: '#131921',
         },
         amazon_gray: '#ccc',
+        blueLink: '#007185',
       },
     },
   },

@@ -11,18 +11,20 @@ type Props = {
 };
 const Home: VFC<Props> = ({ products }) => {
   return (
-    <div className="bg-gray-100">
+    <>
       <Head>
         <title>
           Amazon Clone | 本, ファッション, 家電から食品まで | アマゾン
         </title>
       </Head>
-      <Header />
-      <main className="max-w-screen-2xl mx-auto">
-        <Banner />
-        <ProductFeed products={products} />
-      </main>
-    </div>
+      <div className="bg-gray-100">
+        <Header />
+        <main className="max-w-screen-2xl mx-auto">
+          <Banner />
+          <ProductFeed products={products} />
+        </main>
+      </div>
+    </>
   );
 };
 
