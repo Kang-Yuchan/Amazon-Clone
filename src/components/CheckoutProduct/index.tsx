@@ -54,19 +54,17 @@ const CheckoutProduct: VFC<Props> = ({ product }) => {
           </div>
         )}
         <div className="flex">
-          <div className="mr-2">
-            <select
-              name=""
-              id=""
-              className="cursor-pointer rounded-lg border-solid border border-gray-300 bg-gray-200 p-1 px-3 text-xm"
-              onChange={onChangeItemCount}
-              value={product.itemCount}
-            >
-              {AVAILABLE_ITEM_COUNT_SELECT.map((val) => (
-                <option value={val}>数量: {val}</option>
-              ))}
-            </select>
-          </div>
+          <select
+            name=""
+            id=""
+            className="mr-2 cursor-pointer rounded-lg border-solid border border-gray-200 bg-gray-100 p-1 px-3 text-xm"
+            onChange={onChangeItemCount}
+            value={product.itemCount}
+          >
+            {AVAILABLE_ITEM_COUNT_SELECT.map((val) => (
+              <option value={val}>数量: {val}</option>
+            ))}
+          </select>
           <span
             className="px-2 border-gray-200 blueLink"
             onClick={removeFromCart}

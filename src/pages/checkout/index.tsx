@@ -5,13 +5,28 @@ import { signIn, useSession } from 'next-auth/client';
 import Image from 'next/image';
 import { useRouter } from 'next/dist/client/router';
 import { useRecoilState } from 'recoil';
-import { cartState } from '../../store/cart';
+import { CartItem, cartState } from '../../store/cart';
 import CheckoutProduct from '../../components/CheckoutProduct';
+import Currency from 'react-currency-formatter';
+
+const getAllItemCount = (cart: CartItem[]): number =>
+  cart.reduce(
+    (total, currentValue) => (total = total + currentValue.itemCount),
+    0,
+  );
+
+const getAllItemPrice = (cart: CartItem[]): number =>
+  cart.reduce(
+    (total, currentValue) =>
+      (total = total + currentValue.price * currentValue.itemCount),
+    0,
+  );
 
 const Checkout: VFC = () => {
   const [session] = useSession();
   const router = useRouter();
   const [cart] = useRecoilState(cartState);
+  console.log(getAllItemPrice(cart));
   return (
     <>
       <Head>
@@ -19,8 +34,8 @@ const Checkout: VFC = () => {
       </Head>
       <div className="bg-gray-100">
         <Header />
-        <main className="flex mx-autol">
-          <div className="flex flex-col flex-grow justify-center items-center m-5 shadow-sm mr-10">
+        <main className="flex flex-col-reverse md:flex-row mx-autol">
+          <div className="flex flex-col flex-grow justify-center items-center m-5 shadow-sm md:mr-10">
             <Image
               src="https://links.papareact.com/ikj"
               width={1020}
@@ -89,7 +104,44 @@ const Checkout: VFC = () => {
               )}
             </div>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 py-4 px-5"></div>
+          <div className="flex flex-col space-y-2 md:mt-5 md:mr-5">
+            {cart.length > 0 && (
+              <div className="md:bg-white md:p-4 mt-5 mx-5 md:m-0">
+                <div className="text-xl md:text-lg">
+                  <span>
+                    小計
+                    <span className="hidden md:inline">
+                      {' '}
+                      ({getAllItemCount(cart)} 個の商品) (税込)
+                      <br />:
+                    </span>
+                  </span>
+                  <span className="font-bold">
+                    <span className="ml-2 mr-1 md:mx-1">¥</span>
+                    <span className="text-2xl md:text-lg">
+                      <Currency
+                        quantity={getAllItemPrice(cart)}
+                        currency="JPY"
+                        group=","
+                        pattern="##,### "
+                      />
+                    </span>
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="w-full block text-center px-4 py-3 text-base bg-yellow-300 rounded-lg hover:bg-yellow-400 md:px-4 md:py-1 shadow-sm mt-4"
+                >
+                  レジに進む
+                  <span className="md:hidden">
+                    {' '}
+                    ({getAllItemCount(cart)} 個の商品) (税込)
+                  </span>
+                </button>
+              </div>
+            )}
+            <div className="hidden md:block bg-white rounded-lg border border-gray-200 py-3 px-36" />
+          </div>
         </main>
       </div>
     </>
