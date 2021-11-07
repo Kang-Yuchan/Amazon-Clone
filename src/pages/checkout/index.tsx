@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import { signIn, useSession } from 'next-auth/client';
@@ -8,6 +8,10 @@ import { useRecoilState } from 'recoil';
 import { CartItem, cartState } from '../../store/cart';
 import CheckoutProduct from '../../components/CheckoutProduct';
 import Currency from 'react-currency-formatter';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+import { Stripe } from 'stripe';
+const stripePromise = loadStripe(process.env.stripe_public_key!);
 
 const getAllItemCount = (cart: CartItem[]): number =>
   cart.reduce(
@@ -22,10 +26,27 @@ const getAllItemPrice = (cart: CartItem[]): number =>
     0,
   );
 
-const Checkout: VFC = () => {
+const Checkout: NextPage = () => {
   const [session] = useSession();
   const router = useRouter();
   const [cart] = useRecoilState(cartState);
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+
+    const checkoutSession = await axios.post('/api/checkout_session', {
+      cart,
+      email: session?.user?.email,
+      name: session?.user?.name,
+    });
+
+    const result = await stripe?.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+    if (result?.error) {
+      alert(result.error.message);
+    }
+  };
 
   return (
     <>
@@ -132,13 +153,24 @@ const Checkout: VFC = () => {
                   role="link"
                   disabled={!session}
                   type="button"
-                  className="w-full block text-center px-4 py-3 text-base bg-yellow-300 rounded-lg hover:bg-yellow-400 md:px-4 md:py-1 shadow-sm mt-4"
+                  onClick={createCheckoutSession}
+                  className={`w-full block text-center px-4 py-3 text-base rounded-lg ${
+                    session
+                      ? 'bg-yellow-300 hover:bg-yellow-400'
+                      : 'bg-gray-300'
+                  } md:px-4 md:py-1 shadow-sm mt-4`}
                 >
-                  レジに進む
-                  <span className="md:hidden">
-                    {' '}
-                    ({getAllItemCount(cart)} 個の商品) (税込)
-                  </span>
+                  {session ? (
+                    <>
+                      <span>レジに進む</span>
+                      <span className="md:hidden">
+                        {' '}
+                        ({getAllItemCount(cart)} 個の商品) (税込)
+                      </span>
+                    </>
+                  ) : (
+                    <span>サインインしてください</span>
+                  )}
                 </button>
               </div>
             )}

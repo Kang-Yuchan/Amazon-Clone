@@ -67,7 +67,9 @@ const CheckoutProduct: VFC<Props> = ({ product }) => {
             value={product.itemCount}
           >
             {AVAILABLE_ITEM_COUNT_SELECT.map((val) => (
-              <option value={val}>数量: {val}</option>
+              <option key={val} value={val}>
+                数量: {val}
+              </option>
             ))}
           </select>
           <span

@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { Product } from '../types';
 
 export type CartItem = Product & {
@@ -7,7 +7,7 @@ export type CartItem = Product & {
 };
 
 export const cartState = atom<CartItem[]>({
-  key: 'cartState',
+  key: 'cart',
   default: [],
 });
 
