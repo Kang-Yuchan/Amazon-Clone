@@ -1,4 +1,4 @@
-import React, { useCallback, VFC } from 'react';
+import React, { VFC } from 'react';
 import { CartItem, cartState } from '../../store/cart';
 import Image from 'next/image';
 import Currency from 'react-currency-formatter';

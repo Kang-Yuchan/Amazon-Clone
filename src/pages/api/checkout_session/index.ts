@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Stripe from 'stripe';
 import { CartItem } from '../../../store/cart';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2020-08-27',
-});
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY!);
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { cart, email, name } = req.body;

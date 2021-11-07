@@ -1,4 +1,4 @@
-import { useCallback, useState, VFC } from 'react';
+import { useState, VFC } from 'react';
 import Image from 'next/image';
 import { GetServerSideProps } from 'next';
 import { Product, RealTimeMoneyOrder } from '../../types';
